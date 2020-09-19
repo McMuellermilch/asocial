@@ -1,14 +1,20 @@
 import React from 'react';
-import './App.css';
+import { ThemeProvider } from '@material-ui/core/styles';
+import CssBaseline from '@material-ui/core/CssBaseline';
+import theme from './theme';
+
 import { Button } from '@material-ui/core';
+
+import Header from './components/Header/Header';
+
+console.log(theme);
 
 function App() {
   return (
-    <div className="App">
-      <Button variant="contained" color="primary">
-        Hello World
-      </Button>
-    </div>
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <Header />
+    </ThemeProvider>
   );
 }
 
