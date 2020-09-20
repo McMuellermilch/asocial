@@ -8,55 +8,33 @@ import {
   CardContent,
   Button,
   Typography,
+  Avatar,
 } from '@material-ui/core';
 
-const useStyles = makeStyles({
+import User from './User/User';
+import Post from './Post/Post';
+
+const useStyles = makeStyles((theme) => ({
   root: {
     minWidth: 475,
-    width: 'min-content',
   },
-  bullet: {
-    display: 'inline-block',
-    margin: '0 2px',
-    transform: 'scale(0.8)',
+  layout: {
+    display: 'grid',
+    gridTemplateColumns: 'auto 1fr',
+    gap: '30px',
   },
-  title: {
-    fontSize: 14,
-  },
-  pos: {
-    marginBottom: 12,
-  },
-});
+}));
 
-const FeedElement = () => {
+const FeedElement = (props) => {
   const classes = useStyles();
   const bull = <span className={classes.bullet}>•</span>;
 
   return (
-    <Card className={classes.root} variant="outlined" raised>
-      <CardContent>
-        <Typography
-          className={classes.title}
-          color="textSecondary"
-          gutterBottom
-        >
-          Word of the Day
-        </Typography>
-        <Typography variant="h5" component="h2">
-          be{bull}nev{bull}o{bull}lent
-        </Typography>
-        <Typography className={classes.pos} color="textSecondary">
-          adjective
-        </Typography>
-        <Typography variant="body2" component="p">
-          well meaning and kindly.
-          <br />
-          {'"a benevolent smile"'}
-        </Typography>
+    <Card className={classes.root} elevation={0}>
+      <CardContent className={classes.layout}>
+        <User name={props.name} src={props.src} />
+        <Post title={props.title} date={props.date} text={props.text} />
       </CardContent>
-      <CardActions>
-        <Button size="small">Learn More</Button>
-      </CardActions>
     </Card>
   );
 };

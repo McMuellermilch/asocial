@@ -2,8 +2,6 @@ import React from 'react';
 
 import { makeStyles } from '@material-ui/core/styles';
 
-import { Paper } from '@material-ui/core';
-
 import Feed from '../Feed/Feed';
 
 const useStyles = makeStyles((theme) => ({
@@ -23,9 +21,9 @@ const Body = () => {
   const classes = useStyles();
   return (
     <div className={classes.body_layout}>
-      <div>1</div>
+      <div></div>
       <Feed />
-      <div>3</div>
+      <div></div>
     </div>
   );
 };
