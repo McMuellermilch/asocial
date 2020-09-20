@@ -3,8 +3,7 @@ import { red, amber } from '@material-ui/core/colors';
 
 const theme = createMuiTheme({
   palette: {
-    primary: red,
-    secondary: amber,
+    primary: amber,
   },
 });
 export default theme;
