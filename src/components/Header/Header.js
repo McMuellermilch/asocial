@@ -32,7 +32,7 @@ const Header = () => {
           <Typography variant="h6" className={classes.title}>
             asocial_
           </Typography>
-          <Button color="inherit">Login</Button>
+          <Button color="inherit">Sign In</Button>
         </Toolbar>
       </AppBar>
     </div>
