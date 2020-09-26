@@ -42,10 +42,18 @@ const SignIn = (props) => {
           />
         </DialogContent>
         <DialogActions>
-          <Button onClick={props.handleClose} color="primary">
+          <Button
+            variant="contained"
+            onClick={props.handleClose}
+            color="primary"
+          >
             Cancel
           </Button>
-          <Button onClick={() => props.handleSave(email, pass)} color="primary">
+          <Button
+            variant="contained"
+            onClick={() => props.handleSave(email, pass)}
+            color="primary"
+          >
             Sign In
           </Button>
         </DialogActions>
