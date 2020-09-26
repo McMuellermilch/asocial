@@ -22,18 +22,12 @@ firebase.initializeApp(FirebaseAuth);
 const auth = firebase.auth();
 const firestore = firebase.firestore();
 
-const signIn = () => {
-  auth
-    .signInWithEmailAndPassword('mueller.florian99@outlook.com', 'test123')
-    .then((res) => {
-      console.log(res);
-    });
+const signIn = (email, pass) => {
+  auth.signInWithEmailAndPassword(email, pass);
 };
 
 const signOut = () => {
-  auth.signOut().then((res) => {
-    console.log(res);
-  });
+  auth.signOut();
 };
 
 function App() {

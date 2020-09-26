@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import { makeStyles } from '@material-ui/core/styles';
-
 import { Button } from '@material-ui/core';
+
+import SignIn from './SignIn/SignIn';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -37,6 +38,12 @@ const useStyles = makeStyles((theme) => ({
 
 const Landing = (props) => {
   const classes = useStyles();
+  const [signInOpen, setSignInOpen] = useState(false);
+
+  const handleSignIn = (email, pass) => {
+    props.signIn(email, pass);
+    setSignInOpen(false);
+  };
 
   return (
     <div className={classes.root}>
@@ -47,12 +54,21 @@ const Landing = (props) => {
           the first open source social network
         </div>
         <div className={classes.button_container}>
-          <Button variant="contained" color="primary" onClick={props.signIn}>
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={() => setSignInOpen(true)}
+          >
             Sign In
           </Button>
           <Button variant="contained" color="primary">
             Sign Up
           </Button>
+          <SignIn
+            open={signInOpen}
+            handleSave={handleSignIn}
+            handleClose={() => setSignInOpen(false)}
+          />
         </div>
       </div>
     </div>
