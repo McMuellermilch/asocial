@@ -16,6 +16,22 @@ const useStyles = makeStyles((theme) => ({
   title: {
     flexGrow: 1,
     marginLeft: 25,
+    fontWeight: 800,
+  },
+  logo: {
+    height: '25px',
+  },
+  toolBar: {
+    display: 'grid',
+    gridTemplateColumns: '100px 1fr 100px',
+  },
+  logoContainer: {
+    gridColumn: 1,
+  },
+  userContainer: {
+    gridColumn: 3,
+    alignSelf: 'center',
+    justifySelf: 'end',
   },
 }));
 
@@ -26,11 +42,14 @@ const Header = (props) => {
   return (
     <div>
       <AppBar position="static">
-        <Toolbar>
-          <Typography variant="h6" className={classes.title}>
-            asocial_
-          </Typography>
-          {user ? <UserMenu signOut={props.signOut} /> : <div></div>}
+        <Toolbar className={classes.toolBar}>
+          <div className={classes.logoContainer}>
+            <img className={classes.logo} src="logo_line.png" alt="" />
+          </div>
+
+          <div className={classes.userContainer}>
+            {user ? <UserMenu signOut={props.signOut} /> : <div></div>}
+          </div>
         </Toolbar>
       </AppBar>
     </div>

@@ -9,6 +9,7 @@ import SignUp from './SignUp/SignUp';
 const useStyles = makeStyles((theme) => ({
   root: {
     margin: 30,
+    minHeight: '80vh',
     display: 'grid',
     gridTemplateColumns: '1fr auto 1fr',
     gridTemplateRows: '1fr auto 1fr',
@@ -18,17 +19,21 @@ const useStyles = makeStyles((theme) => ({
     gridColumn: 2,
     display: 'grid',
     gridTemplateRows: 'auto auto auto auto',
-    gap: '10px',
+    gap: '25px',
     textAlign: 'center',
   },
   pre_title: {
     fontSize: 30,
   },
   title: {
-    fontSize: 50,
+    fontWeight: 800,
+  },
+  logo: {
+    width: '150px',
   },
   sub_title: {
-    fontSize: 20,
+    fontSize: 19,
+    fontWeight: 100,
   },
   button_container: {
     display: 'grid',
@@ -50,8 +55,12 @@ const Landing = (props) => {
   return (
     <div className={classes.root}>
       <div className={classes.main_content}>
-        <div className={classes.pre_title}>Welcome to</div>
-        <div className={classes.title}>asocial_</div>
+        <div className={classes.pre_title}>
+          Welcome to <span className={classes.title}>asocial_</span>
+        </div>
+        <div>
+          <img className={classes.logo} src="logo.png" alt="" />
+        </div>
         <div className={classes.sub_title}>
           the first open source social network
         </div>

@@ -1,6 +1,6 @@
 import React from 'react';
 import { ThemeProvider } from '@material-ui/core/styles';
-import CssBaseline from '@material-ui/core/CssBaseline';
+import { makeStyles } from '@material-ui/core/styles';
 import theme from './theme';
 
 import firebase from 'firebase/app';
@@ -30,17 +30,25 @@ const signOut = () => {
   auth.signOut();
 };
 
+const useStyles = makeStyles((theme) => ({
+  root: {
+    height: '100%',
+  },
+}));
+
 function App() {
   const [user] = useAuthState(auth);
+  const classes = useStyles();
 
   return (
-    <ThemeProvider theme={theme}>
-      <CssBaseline />
-      <AuthProvider user={user}>
-        <Header signIn={signIn} signOut={signOut} />
-        {user ? <Body /> : <Landing signIn={signIn} />}
-      </AuthProvider>
-    </ThemeProvider>
+    <div className={classes.root}>
+      <ThemeProvider theme={theme}>
+        <AuthProvider user={user}>
+          <Header signIn={signIn} signOut={signOut} />
+          {user ? <Body /> : <Landing signIn={signIn} />}
+        </AuthProvider>
+      </ThemeProvider>
+    </div>
   );
 }
 
