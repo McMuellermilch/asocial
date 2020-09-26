@@ -35,7 +35,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Landing = () => {
+const Landing = (props) => {
   const classes = useStyles();
 
   return (
@@ -47,7 +47,7 @@ const Landing = () => {
           the first open source social network
         </div>
         <div className={classes.button_container}>
-          <Button variant="contained" color="primary">
+          <Button variant="contained" color="primary" onClick={props.signIn}>
             Sign In
           </Button>
           <Button variant="contained" color="primary">

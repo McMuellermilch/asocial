@@ -8,6 +8,7 @@ import 'firebase/firestore';
 import 'firebase/auth';
 
 import { FirebaseAuth } from './constants';
+import { AuthProvider } from './context/AuthProvider';
 
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { useCollectionData } from 'react-firebase-hooks/firestore';
@@ -21,14 +22,30 @@ firebase.initializeApp(FirebaseAuth);
 const auth = firebase.auth();
 const firestore = firebase.firestore();
 
+const signIn = () => {
+  auth
+    .signInWithEmailAndPassword('mueller.florian99@outlook.com', 'test123')
+    .then((res) => {
+      console.log(res);
+    });
+};
+
+const signOut = () => {
+  auth.signOut().then((res) => {
+    console.log(res);
+  });
+};
+
 function App() {
   const [user] = useAuthState(auth);
 
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
-      <Header />
-      {user ? <Body /> : <Landing />}
+      <AuthProvider user={user}>
+        <Header signIn={signIn} signOut={signOut} />
+        {user ? <Body /> : <Landing signIn={signIn} />}
+      </AuthProvider>
     </ThemeProvider>
   );
 }

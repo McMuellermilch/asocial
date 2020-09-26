@@ -1,14 +1,10 @@
-import React from 'react';
+import React, { useContext } from 'react';
 
 import { makeStyles } from '@material-ui/core/styles';
 
-import {
-  AppBar,
-  Toolbar,
-  Typography,
-  Button,
-  IconButton,
-} from '@material-ui/core';
+import { AuthContext } from '../../context/AuthProvider';
+
+import { AppBar, Toolbar, Typography, Button } from '@material-ui/core';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -23,8 +19,10 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Header = () => {
+const Header = (props) => {
+  const user = useContext(AuthContext);
   const classes = useStyles();
+
   return (
     <div>
       <AppBar position="static">
@@ -32,7 +30,13 @@ const Header = () => {
           <Typography variant="h6" className={classes.title}>
             asocial_
           </Typography>
-          <Button color="inherit">Sign In</Button>
+          {user ? (
+            <Button color="inherit" onClick={props.signOut}>
+              Sign Out
+            </Button>
+          ) : (
+            <></>
+          )}
         </Toolbar>
       </AppBar>
     </div>
