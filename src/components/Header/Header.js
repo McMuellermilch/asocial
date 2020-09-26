@@ -3,16 +3,7 @@ import React, { useState, useContext } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 
 import { AuthContext } from '../../context/AuthProvider';
-import { AccountCircle } from '@material-ui/icons';
-import {
-  AppBar,
-  Toolbar,
-  Typography,
-  IconButton,
-  Menu,
-  Button,
-  MenuItem,
-} from '@material-ui/core';
+import { AppBar, Toolbar, Typography } from '@material-ui/core';
 import UserMenu from './UserMenu/UserMenu';
 
 const useStyles = makeStyles((theme) => ({

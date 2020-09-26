@@ -4,15 +4,7 @@ import { makeStyles } from '@material-ui/core/styles';
 
 import { AuthContext } from '../../../context/AuthProvider';
 import { AccountCircle } from '@material-ui/icons';
-import {
-  AppBar,
-  Toolbar,
-  Typography,
-  IconButton,
-  Menu,
-  Button,
-  MenuItem,
-} from '@material-ui/core';
+import { IconButton, Menu, MenuItem } from '@material-ui/core';
 
 const UserMenu = (props) => {
   const user = useContext(AuthContext);
