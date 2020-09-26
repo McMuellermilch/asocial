@@ -1,10 +1,19 @@
-import React, { useContext } from 'react';
+import React, { useState, useContext } from 'react';
 
 import { makeStyles } from '@material-ui/core/styles';
 
 import { AuthContext } from '../../context/AuthProvider';
-
-import { AppBar, Toolbar, Typography, Button } from '@material-ui/core';
+import { AccountCircle } from '@material-ui/icons';
+import {
+  AppBar,
+  Toolbar,
+  Typography,
+  IconButton,
+  Menu,
+  Button,
+  MenuItem,
+} from '@material-ui/core';
+import UserMenu from './UserMenu/UserMenu';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -30,13 +39,7 @@ const Header = (props) => {
           <Typography variant="h6" className={classes.title}>
             asocial_
           </Typography>
-          {user ? (
-            <Button color="inherit" onClick={props.signOut}>
-              Sign Out
-            </Button>
-          ) : (
-            <></>
-          )}
+          {user ? <UserMenu signOut={props.signOut} /> : <div></div>}
         </Toolbar>
       </AppBar>
     </div>

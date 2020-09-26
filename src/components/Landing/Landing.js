@@ -4,6 +4,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import { Button } from '@material-ui/core';
 
 import SignIn from './SignIn/SignIn';
+import SignUp from './SignUp/SignUp';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -39,6 +40,7 @@ const useStyles = makeStyles((theme) => ({
 const Landing = (props) => {
   const classes = useStyles();
   const [signInOpen, setSignInOpen] = useState(false);
+  const [signUpOpen, setSignUpOpen] = useState(false);
 
   const handleSignIn = (email, pass) => {
     props.signIn(email, pass);
@@ -61,13 +63,22 @@ const Landing = (props) => {
           >
             Sign In
           </Button>
-          <Button variant="contained" color="primary">
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={() => setSignUpOpen(true)}
+          >
             Sign Up
           </Button>
           <SignIn
             open={signInOpen}
             handleSave={handleSignIn}
             handleClose={() => setSignInOpen(false)}
+          />
+          <SignUp
+            open={signUpOpen}
+            handleSave={handleSignIn}
+            handleClose={() => setSignUpOpen(false)}
           />
         </div>
       </div>
