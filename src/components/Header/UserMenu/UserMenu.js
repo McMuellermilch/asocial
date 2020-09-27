@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 
 import { makeStyles } from '@material-ui/core/styles';
 
@@ -8,9 +8,12 @@ import { AuthContext } from '../../../context/AuthProvider';
 import { AccountCircle } from '@material-ui/icons';
 import { IconButton, Menu, MenuItem } from '@material-ui/core';
 
+import Profile from './Profile/Profile';
+
 const UserMenu = (props) => {
   const user = useContext(AuthContext);
   const [anchorEl, setAnchorEl] = useState();
+  const [profileOpen, setProfileOpen] = useState(false);
   const open = Boolean(anchorEl);
 
   const handleMenu = (event) => {
@@ -52,9 +55,10 @@ const UserMenu = (props) => {
         open={open}
         onClose={handleClose}
       >
-        <MenuItem onClick={handleClose}>Profile</MenuItem>
+        <MenuItem onClick={() => setProfileOpen(true)}>Edit Profile</MenuItem>
         <MenuItem onClick={signOut}>Sign Out</MenuItem>
       </Menu>
+      <Profile open={profileOpen} close={() => setProfileOpen(false)} />
     </div>
   );
 };

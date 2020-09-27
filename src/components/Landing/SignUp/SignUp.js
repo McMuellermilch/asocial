@@ -13,12 +13,14 @@ import {
   DialogTitle,
 } from '@material-ui/core';
 
-const signUp = (email, pass) => {
+const signUp = (email, pass, firstName, lastName) => {
   auth
     .createUserWithEmailAndPassword(email, pass)
     .then((cred) => {
       return firestore.collection('users').doc(cred.user.uid).set({
-        name: 'Steve',
+        firstName: firstName,
+        lastName: lastName,
+        email: email,
       });
     })
     .catch((error) => {
@@ -31,6 +33,8 @@ const signUp = (email, pass) => {
 const SignUp = (props) => {
   const [email, setEmail] = useState();
   const [pass, setPass] = useState();
+  const [firstName, setFirstName] = useState();
+  const [lastName, setLastName] = useState();
 
   return (
     <div>
@@ -44,6 +48,23 @@ const SignUp = (props) => {
           <DialogContentText>
             To become asocial, just enter your details here:
           </DialogContentText>
+          <TextField
+            autoFocus
+            onChange={(e) => setFirstName(e.target.value)}
+            margin="dense"
+            id="firstName"
+            label="First Name"
+            type="text"
+            fullWidth
+          />
+          <TextField
+            onChange={(e) => setLastName(e.target.value)}
+            margin="dense"
+            id="lastName"
+            label="Last Name"
+            type="text"
+            fullWidth
+          />
           <TextField
             onChange={(e) => setEmail(e.target.value)}
             margin="dense"
@@ -71,7 +92,7 @@ const SignUp = (props) => {
           </Button>
           <Button
             variant="contained"
-            onClick={() => signUp(email, pass)}
+            onClick={() => signUp(email, pass, firstName, lastName)}
             color="primary"
           >
             Sign Up
