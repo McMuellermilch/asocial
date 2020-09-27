@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 
+import { auth, firestore } from '../../../Base';
+
 import { makeStyles } from '@material-ui/core/styles';
 import {
   Button,
@@ -9,6 +11,10 @@ import {
   DialogContent,
   DialogTitle,
 } from '@material-ui/core';
+
+const signIn = (email, pass) => {
+  auth.signInWithEmailAndPassword(email, pass);
+};
 
 const SignIn = (props) => {
   const [email, setEmail] = useState();
@@ -27,7 +33,7 @@ const SignIn = (props) => {
             onChange={(e) => setEmail(e.target.value)}
             autoFocus
             margin="dense"
-            id="name"
+            id="email"
             label="Email Address"
             type="email"
             fullWidth
@@ -35,7 +41,7 @@ const SignIn = (props) => {
           <TextField
             onChange={(e) => setPass(e.target.value)}
             margin="dense"
-            id="name"
+            id="pass"
             label="Password"
             type="password"
             fullWidth
@@ -51,7 +57,7 @@ const SignIn = (props) => {
           </Button>
           <Button
             variant="contained"
-            onClick={() => props.handleSave(email, pass)}
+            onClick={() => signIn(email, pass)}
             color="primary"
           >
             Sign In

@@ -48,7 +48,7 @@ const Header = (props) => {
           </div>
 
           <div className={classes.userContainer}>
-            {user ? <UserMenu signOut={props.signOut} /> : <div></div>}
+            {user ? <UserMenu /> : <div></div>}
           </div>
         </Toolbar>
       </AppBar>

@@ -2,6 +2,8 @@ import React, { useContext, useState } from 'react';
 
 import { makeStyles } from '@material-ui/core/styles';
 
+import { auth, firestore } from '../../../Base';
+
 import { AuthContext } from '../../../context/AuthProvider';
 import { AccountCircle } from '@material-ui/icons';
 import { IconButton, Menu, MenuItem } from '@material-ui/core';
@@ -19,6 +21,10 @@ const UserMenu = (props) => {
     setAnchorEl(null);
   };
 
+  const signOut = () => {
+    auth.signOut();
+  };
+
   return (
     <div>
       <IconButton
@@ -27,8 +33,9 @@ const UserMenu = (props) => {
         aria-haspopup="true"
         onClick={handleMenu}
         color="inherit"
+        size="medium"
       >
-        <AccountCircle />
+        <AccountCircle fontSize="large" />
       </IconButton>
       <Menu
         id="menu-appbar"
@@ -46,7 +53,7 @@ const UserMenu = (props) => {
         onClose={handleClose}
       >
         <MenuItem onClick={handleClose}>Profile</MenuItem>
-        <MenuItem onClick={props.signOut}>Sign Out</MenuItem>
+        <MenuItem onClick={signOut}>Sign Out</MenuItem>
       </Menu>
     </div>
   );

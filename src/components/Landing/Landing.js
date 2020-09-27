@@ -52,6 +52,11 @@ const Landing = (props) => {
     setSignInOpen(false);
   };
 
+  const handleSignUp = (email, pass) => {
+    props.signUp(email, pass);
+    setSignUpOpen(false);
+  };
+
   return (
     <div className={classes.root}>
       <div className={classes.main_content}>
@@ -79,14 +84,10 @@ const Landing = (props) => {
           >
             Sign Up
           </Button>
-          <SignIn
-            open={signInOpen}
-            handleSave={handleSignIn}
-            handleClose={() => setSignInOpen(false)}
-          />
+          <SignIn open={signInOpen} handleClose={() => setSignInOpen(false)} />
           <SignUp
             open={signUpOpen}
-            handleSave={handleSignIn}
+            handleSave={handleSignUp}
             handleClose={() => setSignUpOpen(false)}
           />
         </div>

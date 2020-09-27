@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 
+import { auth, firestore } from '../../../Base';
+
 import { makeStyles } from '@material-ui/core/styles';
 import {
   Button,
@@ -11,9 +13,22 @@ import {
   DialogTitle,
 } from '@material-ui/core';
 
+const signUp = (email, pass) => {
+  auth
+    .createUserWithEmailAndPassword(email, pass)
+    .then((cred) => {
+      return firestore.collection('users').doc(cred.user.uid).set({
+        name: 'Steve',
+      });
+    })
+    .catch((error) => {
+      let errorCode = error.code;
+      let errorMessage = error.message;
+      console.log(errorCode + ': ' + errorMessage);
+    });
+};
+
 const SignUp = (props) => {
-  const [firstName, setFirstName] = useState();
-  const [lastName, setLastName] = useState();
   const [email, setEmail] = useState();
   const [pass, setPass] = useState();
 
@@ -30,26 +45,9 @@ const SignUp = (props) => {
             To become asocial, just enter your details here:
           </DialogContentText>
           <TextField
-            onChange={(e) => setFirstName(e.target.value)}
-            autoFocus
-            margin="dense"
-            id="name"
-            label="First Name"
-            type="text"
-            fullWidth
-          />
-          <TextField
-            onChange={(e) => setLastName(e.target.value)}
-            margin="dense"
-            id="name"
-            label="Last Name"
-            type="text"
-            fullWidth
-          />
-          <TextField
             onChange={(e) => setEmail(e.target.value)}
             margin="dense"
-            id="name"
+            id="email"
             label="Email Address"
             type="email"
             fullWidth
@@ -57,7 +55,7 @@ const SignUp = (props) => {
           <TextField
             onChange={(e) => setPass(e.target.value)}
             margin="dense"
-            id="name"
+            id="pass"
             label="Password"
             type="password"
             fullWidth
@@ -73,10 +71,10 @@ const SignUp = (props) => {
           </Button>
           <Button
             variant="contained"
-            onClick={() => props.handleSave(email, pass)}
+            onClick={() => signUp(email, pass)}
             color="primary"
           >
-            Sign In
+            Sign Up
           </Button>
         </DialogActions>
       </Dialog>
