@@ -26,25 +26,26 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const handlePost = (text, userid, toast, setText) => {
-  firestore
-    .collection('posts')
-    .doc()
-    .set({
-      userId: userid,
-      text: text,
-      createdAt: new Date().toLocaleDateString(),
-    })
-    .then(() => {
-      toast();
-    });
-};
-
 const CreatePost = () => {
   const classes = useStyles();
   const user = useContext(AuthContext);
   const [text, setText] = useState();
   const { enqueueSnackbar, closeSnackbar } = useSnackbar();
+
+  const handlePost = (text, userid, toast) => {
+    firestore
+      .collection('posts')
+      .doc()
+      .set({
+        userId: userid,
+        text: text,
+        createdAt: new Date().toLocaleDateString(),
+      })
+      .then(() => {
+        toast();
+        setText('');
+      });
+  };
 
   return (
     <Card className={classes.root} elevation={5}>
