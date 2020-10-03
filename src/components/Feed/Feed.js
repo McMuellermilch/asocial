@@ -1,10 +1,13 @@
-import React from 'react';
+import React, { useEffect, useState, useContext } from 'react';
+
+import { auth, firestore } from '../../Base';
 
 import { makeStyles } from '@material-ui/core/styles';
-
+import { AuthContext } from '../../context/AuthProvider';
 import { Paper } from '@material-ui/core';
 
 import FeedElement from './FeedElement/FeedElement';
+import CreatePost from './CreatePost/CreatePost';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -17,30 +20,51 @@ const useStyles = makeStyles((theme) => ({
 
 const Feed = () => {
   const classes = useStyles();
+  const [posts, setPosts] = useState([]);
+  const [userObj, setUserObj] = useState();
+  const user = useContext(AuthContext);
+
+  const ckeckFollowing = (userId) => {
+    return userObj.following.includes(userId);
+  };
+
+  useEffect(() => {
+    firestore.collection('posts').onSnapshot((querySnapshot) => {
+      let postdata = [];
+      querySnapshot.forEach((doc) => {
+        postdata.push(doc.data());
+      });
+      setPosts(postdata);
+    });
+
+    firestore
+      .collection('users')
+      .doc(user.uid)
+      .onSnapshot(function (doc) {
+        setUserObj(doc.data());
+      });
+  }, []);
 
   return (
     <Paper className={classes.root} elevation={3}>
-      <FeedElement
-        name="Steven R."
-        src="avatar1_male.jpg"
-        title="My first post y'all"
-        date="20.09.2020"
-        text="Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet."
-      />
-      <FeedElement
-        name="Jessica M."
-        src="avatar1_female.jpg"
-        title="asocial_ is sick!"
-        date="18.09.2020"
-        text="Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero"
-      />
-      <FeedElement
-        name="Phil D."
-        src="avatar2_male.jpg"
-        title="First, bi***es!"
-        date="17.09.2020"
-        text="Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur "
-      />
+      <CreatePost />
+      {userObj ? (
+        posts.map((post) => {
+          if (post.userId == user.uid || ckeckFollowing(post.userId)) {
+            return (
+              <FeedElement
+                key={post._id}
+                text={post.text}
+                date={post.createdAt}
+                uid={post.userId}
+              />
+            );
+          }
+        })
+      ) : (
+        <></>
+      )}
+      {}
     </Paper>
   );
 };

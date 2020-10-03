@@ -21,6 +21,7 @@ const signUp = (email, pass, firstName, lastName) => {
         firstName: firstName,
         lastName: lastName,
         email: email,
+        following: [],
       });
     })
     .catch((error) => {

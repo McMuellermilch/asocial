@@ -1,4 +1,6 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+
+import { auth, firestore } from '../../../Base';
 
 import { makeStyles } from '@material-ui/core/styles';
 
@@ -27,13 +29,22 @@ const useStyles = makeStyles((theme) => ({
 
 const FeedElement = (props) => {
   const classes = useStyles();
-  const bull = <span className={classes.bullet}>•</span>;
+  const [user, setUser] = useState();
+
+  useEffect(() => {
+    firestore
+      .collection('users')
+      .doc(props.uid)
+      .onSnapshot(function (doc) {
+        setUser(doc.data());
+      });
+  }, []);
 
   return (
     <Card className={classes.root} elevation={0}>
       <CardContent className={classes.layout}>
-        <User name={props.name} src={props.src} />
-        <Post title={props.title} date={props.date} text={props.text} />
+        <User user={user} />
+        <Post date={props.date} text={props.text} />
       </CardContent>
     </Card>
   );

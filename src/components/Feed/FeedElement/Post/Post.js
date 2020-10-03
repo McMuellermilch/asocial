@@ -27,14 +27,13 @@ const Post = (props) => {
   return (
     <Card elevation={5}>
       <CardContent className={classes.root}>
-        <div className={classes.heading}>
-          <Typography variant="h6">{props.title}</Typography>
+        <div className={classes.body}>
+          <Typography>{props.text}</Typography>
+        </div>
+        <div>
           <Typography variant="subtitle2" color="textSecondary">
             {props.date}
           </Typography>
-        </div>
-        <div className={classes.body}>
-          <Typography>{props.text}</Typography>
         </div>
       </CardContent>
       <Divider />

@@ -42,7 +42,6 @@ const Profile = (props) => {
 
   useEffect(() => {
     if (user != null) {
-      console.log(user.uid);
       firestore
         .collection('users')
         .doc(user.uid)
@@ -56,7 +55,6 @@ const Profile = (props) => {
   return (
     <div>
       <Dialog
-        fullScreen
         open={props.open}
         onClose={props.close}
         TransitionComponent={Transition}
@@ -72,7 +70,7 @@ const Profile = (props) => {
               <Close />
             </IconButton>
             <Typography variant="h6" className={classes.title}>
-              {userObject ? userObject.firstName : <Skeleton variant="text" />}
+              Edit Profile
             </Typography>
             <Button autoFocus color="inherit" onClick={props.close}>
               save

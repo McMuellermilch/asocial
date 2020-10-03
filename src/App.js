@@ -7,6 +7,8 @@ import { auth, firestore } from './Base';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { AuthProvider } from './context/AuthProvider';
 
+import { SnackbarProvider } from 'notistack';
+
 import Header from './components/Header/Header';
 import Body from './components/Body/Body';
 import Landing from './components/Landing/Landing';
@@ -22,14 +24,16 @@ function App() {
   const classes = useStyles();
 
   return (
-    <div className={classes.root}>
-      <ThemeProvider theme={theme}>
-        <AuthProvider user={user}>
-          <Header />
-          {user ? <Body /> : <Landing />}
-        </AuthProvider>
-      </ThemeProvider>
-    </div>
+    <SnackbarProvider maxSnack={3}>
+      <div className={classes.root}>
+        <ThemeProvider theme={theme}>
+          <AuthProvider user={user}>
+            <Header />
+            {user ? <Body /> : <Landing />}
+          </AuthProvider>
+        </ThemeProvider>
+      </div>
+    </SnackbarProvider>
   );
 }
 
