@@ -24,6 +24,11 @@ const UserMenu = (props) => {
     setAnchorEl(null);
   };
 
+  const handleEditClick = () => {
+    setProfileOpen(true);
+    setAnchorEl(null);
+  };
+
   const signOut = () => {
     auth.signOut();
   };
@@ -55,7 +60,7 @@ const UserMenu = (props) => {
         open={open}
         onClose={handleClose}
       >
-        <MenuItem onClick={() => setProfileOpen(true)}>Edit Profile</MenuItem>
+        <MenuItem onClick={handleEditClick}>Edit Profile</MenuItem>
         <MenuItem onClick={signOut}>Sign Out</MenuItem>
       </Menu>
       <Profile open={profileOpen} close={() => setProfileOpen(false)} />

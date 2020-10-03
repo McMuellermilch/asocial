@@ -1,8 +1,8 @@
 import React, { useState, useContext, useEffect } from 'react';
 
 import { makeStyles } from '@material-ui/core/styles';
-
-import { auth, firestore } from '../../../../Base';
+import { DropzoneArea } from 'material-ui-dropzone';
+import { auth, firestore, storage } from '../../../../Base';
 
 import { AuthContext } from '../../../../context/AuthProvider';
 import { Close } from '@material-ui/icons';
@@ -19,6 +19,7 @@ import {
   IconButton,
   Typography,
   Slide,
+  DialogContent,
 } from '@material-ui/core';
 
 const useStyles = makeStyles((theme) => ({
@@ -39,6 +40,7 @@ const Profile = (props) => {
   const user = useContext(AuthContext);
   const classes = useStyles();
   const [userObject, setUserObject] = useState();
+  const [file, setFile] = useState(null);
 
   useEffect(() => {
     if (user != null) {
@@ -52,12 +54,30 @@ const Profile = (props) => {
     }
   }, [user]);
 
+  const handleClick = () => {
+    storage
+      .ref('/profilePictures/' + user.uid)
+      .put(file)
+      .then(() => {
+        storage
+          .ref('/profilePictures/' + user.uid)
+          .getDownloadURL()
+          .then((url) => {
+            firestore.collection('users').doc(user.uid).update({
+              image: url,
+            });
+          });
+      });
+  };
+
   return (
     <div>
       <Dialog
         open={props.open}
         onClose={props.close}
         TransitionComponent={Transition}
+        fullWidth
+        maxWidth="md"
       >
         <AppBar className={classes.appBar}>
           <Toolbar>
@@ -77,18 +97,18 @@ const Profile = (props) => {
             </Button>
           </Toolbar>
         </AppBar>
-        <List>
-          <ListItem button>
-            <ListItemText primary="Phone ringtone" secondary="Titania" />
-          </ListItem>
-          <Divider />
-          <ListItem button>
-            <ListItemText
-              primary="Default notification ringtone"
-              secondary="Tethys"
+        <DialogContent>
+          {userObject ? <div>{userObject.firstName}</div> : <></>}
+          <div>
+            <DropzoneArea
+              filesLimit={1}
+              onChange={(files) => setFile(files[0])}
             />
-          </ListItem>
-        </List>
+          </div>
+          <div>
+            <Button onClick={handleClick}>upload</Button>
+          </div>
+        </DialogContent>
       </Dialog>
     </div>
   );

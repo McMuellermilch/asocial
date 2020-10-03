@@ -28,7 +28,11 @@ const User = (props) => {
 
   return (
     <div className={classes.root}>
-      <Avatar className={classes.large} alt="Remy Sharp" src={props.src} />
+      <Avatar
+        className={classes.large}
+        alt="Remy Sharp"
+        src={props.user ? props.user.image : ''}
+      />
       <Typography color="textSecondary">
         {props.user ? (
           formatName(props.user.firstName, props.user.lastName)
