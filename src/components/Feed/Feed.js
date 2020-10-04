@@ -67,10 +67,12 @@ const Feed = () => {
         if (post.userId == user.uid || checkFollowing(post.userId)) {
           return (
             <FeedElement
-              key={post._id}
+              key={post.id}
+              id={post.id}
               text={post.text}
               date={post.createdAt}
               uid={post.userId}
+              likes={post.likes}
             />
           );
         }
@@ -83,7 +85,13 @@ const Feed = () => {
     firestore.collection('posts').onSnapshot((querySnapshot) => {
       let postdata = [];
       querySnapshot.forEach((doc) => {
-        postdata.push(doc.data());
+        postdata.push({
+          id: doc.id,
+          userId: doc.data().userId,
+          text: doc.data().text,
+          likes: doc.data().likes,
+          createdAt: doc.data().createdAt,
+        });
       });
       setPosts(postdata);
     });

@@ -1,7 +1,8 @@
 import React from 'react';
 
-import { makeStyles } from '@material-ui/core/styles';
+import { app, firestore } from '../../../../Base';
 
+import { makeStyles } from '@material-ui/core/styles';
 import {
   Card,
   CardActions,
@@ -41,6 +42,14 @@ const formatDate = (date) => {
   );
 };
 
+const handleLike = (id, likeNum) => {
+  console.log(id);
+  firestore
+    .collection('posts')
+    .doc(id)
+    .update({ likes: likeNum + 1 });
+};
+
 const Post = (props) => {
   const classes = useStyles();
 
@@ -58,12 +67,22 @@ const Post = (props) => {
       </CardContent>
       <Divider />
       <CardActions>
-        <IconButton aria-label="add to favorites">
-          <FavoriteIcon />
+        <IconButton
+          onClick={() => handleLike(props.id, props.likes)}
+          size="small"
+          aria-label="add to favorites"
+        >
+          <FavoriteIcon fontSize="small" />
         </IconButton>
-        <IconButton aria-label="comment">
-          <CommentIcon />
+        <Typography variant="subtitle2" color="textSecondary">
+          {props.likes}
+        </Typography>
+        <IconButton size="small" aria-label="comment">
+          <CommentIcon fontSize="small" />
         </IconButton>
+        <Typography variant="subtitle2" color="textSecondary">
+          4
+        </Typography>
       </CardActions>
     </Card>
   );

@@ -44,7 +44,12 @@ const FeedElement = (props) => {
     <Card className={classes.root} elevation={0}>
       <CardContent className={classes.layout}>
         <User user={user} />
-        <Post date={props.date} text={props.text} />
+        <Post
+          id={props.id}
+          date={props.date}
+          text={props.text}
+          likes={props.likes}
+        />
       </CardContent>
     </Card>
   );
