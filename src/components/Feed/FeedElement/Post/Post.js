@@ -23,6 +23,7 @@ const useStyles = makeStyles((theme) => ({
 
 const Post = (props) => {
   const classes = useStyles();
+  console.log(props.date);
 
   return (
     <Card elevation={5}>
@@ -32,7 +33,7 @@ const Post = (props) => {
         </div>
         <div>
           <Typography variant="subtitle2" color="textSecondary">
-            {props.date}
+            {new Date(props.date.seconds * 1000).toLocaleDateString('de-DE')}
           </Typography>
         </div>
       </CardContent>

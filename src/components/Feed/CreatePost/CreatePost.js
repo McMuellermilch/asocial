@@ -12,17 +12,29 @@ import {
   CardContent,
   Button,
   TextField,
-  Typography,
+  Paper,
   Avatar,
 } from '@material-ui/core';
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    minWidth: 475,
-    margin: 20,
+    display: 'grid',
+    gridTemplateColumns: '1fr auto 1fr',
+    width: '100%',
   },
-  layout: {
-    margin: 15,
+  postCard: {
+    gridColumn: 2,
+    width: 600,
+    padding: 20,
+  },
+
+  actions: {
+    paddingRight: '16px',
+    display: 'grid',
+    gridTemplateColumns: '1fr auto',
+  },
+  actionsButton: {
+    gridColumn: 2,
   },
 }));
 
@@ -39,7 +51,7 @@ const CreatePost = () => {
       .set({
         userId: userid,
         text: text,
-        createdAt: new Date().toLocaleDateString(),
+        createdAt: new Date(),
       })
       .then(() => {
         toast();
@@ -48,35 +60,40 @@ const CreatePost = () => {
   };
 
   return (
-    <Card className={classes.root} elevation={5}>
-      <CardContent className={classes.layout}>
-        <TextField
-          fullWidth
-          id="standard-textarea"
-          placeholder="What's on your mind?"
-          value={text}
-          multiline
-          onChange={(e) => setText(e.target.value)}
-        />
-      </CardContent>
-      <CardActions>
-        <Button
-          onClick={() =>
-            handlePost(text, user.uid, () =>
-              enqueueSnackbar('Post created!', {
-                variant: 'success',
-                anchorOrigin: {
-                  vertical: 'top',
-                  horizontal: 'right',
-                },
-              })
-            )
-          }
-        >
-          Post
-        </Button>
-      </CardActions>
-    </Card>
+    <Paper className={classes.root} elevation={3}>
+      <Card className={classes.postCard} elevation={0}>
+        <CardContent>
+          <TextField
+            fullWidth
+            id="standard-textarea"
+            placeholder="What's on your mind?"
+            value={text}
+            multiline
+            onChange={(e) => setText(e.target.value)}
+          />
+        </CardContent>
+        <CardActions className={classes.actions}>
+          <Button
+            className={classes.actionsButton}
+            variant="contained"
+            color="primary"
+            onClick={() =>
+              handlePost(text, user.uid, () =>
+                enqueueSnackbar('Post created!', {
+                  variant: 'success',
+                  anchorOrigin: {
+                    vertical: 'top',
+                    horizontal: 'right',
+                  },
+                })
+              )
+            }
+          >
+            Post
+          </Button>
+        </CardActions>
+      </Card>
+    </Paper>
   );
 };
 

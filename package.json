@@ -1,6 +1,6 @@
 {
   "homepage": "https://mcmuellermilch.github.io/asocial/",
-  "name": "material-playground",
+  "name": "asocial",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
