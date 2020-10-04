@@ -4,7 +4,8 @@ import { auth, firestore } from '../../Base';
 import empty_image from './empty_feed.svg';
 import { makeStyles } from '@material-ui/core/styles';
 import { AuthContext } from '../../context/AuthProvider';
-import { Paper } from '@material-ui/core';
+import { Paper, IconButton } from '@material-ui/core';
+import { ArrowDownwardRounded, ArrowUpwardRounded } from '@material-ui/icons';
 
 import FeedElement from './FeedElement/FeedElement';
 import CreatePost from './CreatePost/CreatePost';
@@ -34,15 +35,34 @@ const Feed = () => {
   const [posts, setPosts] = useState([]);
   const [postsFeed, setPostsFeed] = useState([]);
   const [userObj, setUserObj] = useState();
+  const [direction, setDirection] = useState('desc');
   const user = useContext(AuthContext);
 
   const checkFollowing = (userId) => {
     return userObj.following.includes(userId);
   };
 
+  const sortArray = (direction) => {
+    posts.sort(function compare(a, b) {
+      if (direction == 'asc') {
+        return a.createdAt - b.createdAt;
+      } else {
+        return b.createdAt - a.createdAt;
+      }
+    });
+  };
+
+  const handleClick = () => {
+    if (direction == 'desc') {
+      setDirection('asc');
+    } else {
+      setDirection('desc');
+    }
+  };
+
   useEffect(() => {
-    console.log('x');
     if (userObj) {
+      sortArray(direction);
       let validPosts = posts.map((post) => {
         if (post.userId == user.uid || checkFollowing(post.userId)) {
           return (
@@ -57,7 +77,7 @@ const Feed = () => {
       });
       setPostsFeed(validPosts);
     }
-  }, [posts, userObj]);
+  }, [posts, userObj, direction]);
 
   useEffect(() => {
     firestore.collection('posts').onSnapshot((querySnapshot) => {
@@ -81,7 +101,18 @@ const Feed = () => {
       <CreatePost />
       <Paper className={classes.root} elevation={3}>
         {postsFeed.length > 0 ? (
-          postsFeed
+          <div>
+            <div>
+              <IconButton onClick={handleClick}>
+                {direction == 'desc' ? (
+                  <ArrowUpwardRounded />
+                ) : (
+                  <ArrowDownwardRounded />
+                )}
+              </IconButton>
+            </div>
+            <div>{postsFeed}</div>
+          </div>
         ) : (
           <div className={classes.emptyFeed}>
             <img className={classes.emptyFeedImage} src={empty_image} alt="" />

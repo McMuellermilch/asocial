@@ -21,9 +21,28 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+const leadingZeros = (num) => {
+  return (num < 10 ? '0' : '') + num;
+};
+
+const formatDate = (date) => {
+  let d = new Date(date.seconds * 1000);
+
+  return (
+    leadingZeros(d.getDate()) +
+    '.' +
+    leadingZeros(d.getMonth() + 1) +
+    '.' +
+    d.getFullYear() +
+    ' | ' +
+    leadingZeros(d.getHours()) +
+    ':' +
+    leadingZeros(d.getMinutes())
+  );
+};
+
 const Post = (props) => {
   const classes = useStyles();
-  console.log(props.date);
 
   return (
     <Card elevation={5}>
@@ -33,7 +52,7 @@ const Post = (props) => {
         </div>
         <div>
           <Typography variant="subtitle2" color="textSecondary">
-            {new Date(props.date.seconds * 1000).toLocaleDateString('de-DE')}
+            {formatDate(props.date)}
           </Typography>
         </div>
       </CardContent>
