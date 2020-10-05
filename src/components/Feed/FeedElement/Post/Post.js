@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import firebase from 'firebase';
 import { app, firestore } from '../../../../Base';
 import { AuthContext } from '../../../../context/AuthProvider';
@@ -61,6 +61,16 @@ const handleLike = (postId, userId, likes) => {
 const Post = (props) => {
   const classes = useStyles();
   const auth = useContext(AuthContext);
+  const [color, setColor] = useState('inherit');
+
+  useEffect(() => {
+    if (props.likes.includes(auth.uid)) {
+      setColor('#f06292');
+    } else {
+      setColor('rgba(0, 0, 0, 0.54)');
+    }
+  }, [props, auth]);
+  //
   return (
     <Card elevation={5}>
       <CardContent className={classes.root}>
@@ -80,10 +90,7 @@ const Post = (props) => {
           size="small"
           aria-label="add to favorites"
         >
-          <FavoriteIcon
-            fontSize="small"
-            color={props.likes.includes(auth.uid) ? 'primary' : 'inherit'}
-          />
+          <FavoriteIcon fontSize="small" style={{ fill: color }} />
         </IconButton>
         <Typography variant="subtitle2" color="textSecondary">
           {props.likes.length}

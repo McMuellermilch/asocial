@@ -98,7 +98,7 @@ const Profile = (props) => {
           </Toolbar>
         </AppBar>
         <DialogContent>
-          {userObject ? <div>{userObject.firstName}</div> : <></>}
+          {userObject ? <div>{userObject.firstName}</div> : <Skeleton />}
           <div>
             <DropzoneArea
               filesLimit={1}
