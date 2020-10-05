@@ -1,7 +1,7 @@
-import React from 'react';
-
+import React, { useContext } from 'react';
+import firebase from 'firebase';
 import { app, firestore } from '../../../../Base';
-
+import { AuthContext } from '../../../../context/AuthProvider';
 import { makeStyles } from '@material-ui/core/styles';
 import {
   Card,
@@ -42,17 +42,25 @@ const formatDate = (date) => {
   );
 };
 
-const handleLike = (id, likeNum) => {
-  console.log(id);
-  firestore
-    .collection('posts')
-    .doc(id)
-    .update({ likes: likeNum + 1 });
+const handleLike = (postId, userId, likes) => {
+  var likesRef = firestore.collection('posts').doc(postId);
+
+  if (!likes.includes(userId)) {
+    console.log('in if');
+    likesRef.update({
+      likes: firebase.firestore.FieldValue.arrayUnion(userId),
+    });
+  } else {
+    console.log('in else');
+    likesRef.update({
+      likes: firebase.firestore.FieldValue.arrayRemove(userId),
+    });
+  }
 };
 
 const Post = (props) => {
   const classes = useStyles();
-
+  const auth = useContext(AuthContext);
   return (
     <Card elevation={5}>
       <CardContent className={classes.root}>
@@ -68,14 +76,17 @@ const Post = (props) => {
       <Divider />
       <CardActions>
         <IconButton
-          onClick={() => handleLike(props.id, props.likes)}
+          onClick={() => handleLike(props.id, auth.uid, props.likes)}
           size="small"
           aria-label="add to favorites"
         >
-          <FavoriteIcon fontSize="small" />
+          <FavoriteIcon
+            fontSize="small"
+            color={props.likes.includes(auth.uid) ? 'primary' : 'inherit'}
+          />
         </IconButton>
         <Typography variant="subtitle2" color="textSecondary">
-          {props.likes}
+          {props.likes.length}
         </Typography>
         <IconButton size="small" aria-label="comment">
           <CommentIcon fontSize="small" />

@@ -52,7 +52,7 @@ const CreatePost = () => {
         userId: userid,
         text: text,
         createdAt: new Date(),
-        likes: 0,
+        likes: [],
       })
       .then(() => {
         toast();
